@@ -21,7 +21,6 @@ import java.util.logging.Logger;
  * servidor para que varios clientes puedan conectarse a la vez al servidor
  */
 public class ServidorHilo extends Thread {
-    private String dato;
     private Socket sc;
 
     public ServidorHilo(Socket sc) {
@@ -64,7 +63,7 @@ public class ServidorHilo extends Thread {
 
     private String calcularDatoCalendario(String dato) {
         
-        this.dato = dato;
+       
         Date date = new Date();
         DateFormat dia = new SimpleDateFormat("dd");
         DateFormat mes = new SimpleDateFormat("MM");
@@ -73,23 +72,27 @@ public class ServidorHilo extends Thread {
         String respuesta;
       
 
-        if (dato == "DAY") {
-            respuesta=dia.format(date);
-        } else if (dato == "MONTH") {
-            respuesta=mes.format(date);
-
-        } else if (dato == "YEAR") {
-            respuesta=ayo.format(date);
-
-        } else if (dato == "ALL") {
-            respuesta=todo.format(date);
-        } else if (dato == "END")
-        {
-            respuesta="conexiones cerradas";
-            
-        }else 
-        {
+        if (null == dato) {
             respuesta="No se reconoce el comando solicitado";
+        } else switch (dato) {
+            case "DAY":
+                respuesta=dia.format(date);
+                break;
+            case "MONTH":
+                respuesta=mes.format(date);
+                break;
+            case "YEAR":
+                respuesta=ayo.format(date);
+                break;
+            case "ALL":
+                respuesta=todo.format(date);
+                break;
+            case "END":
+                respuesta="conexiones cerradas";
+                break;
+            default:
+                respuesta="No se reconoce el comando solicitado";
+                break;
         }
 
         return respuesta;
