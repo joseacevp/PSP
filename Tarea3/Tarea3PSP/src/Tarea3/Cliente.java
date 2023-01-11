@@ -29,10 +29,11 @@ public class Cliente {
             String day,month,year;
             
             day = sn.next();
-            
+           
             out.writeUTF(day);
             //mensaje si el dato es incorrecto?
-            
+          String datoRecivido = in.readUTF().trim();
+            System.out.println(datoRecivido);
             sc.close();
             
         } catch (Exception e) {

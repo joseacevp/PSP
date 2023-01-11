@@ -27,13 +27,15 @@ public class ServidorHilo extends Thread {
             in = new DataInputStream(sc.getInputStream());
             out = new DataOutputStream(sc.getOutputStream());
             
-            String day = in.readUTF();
-            
+            String dato = in.readUTF();
+            //out.writeUTF("hola");
             //controlar que el comando recibido sea valido
             
             System.out.println("Conexión Realizada");
-            System.out.println("Comando Recibido:"+day);
-            
+            System.out.println("Comando Recibido:"+dato);
+            if (dato=="DAY"){
+            out.writeUTF("dato");
+            }else
             sc.close();
             
         } catch (IOException ex) {
