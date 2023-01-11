@@ -44,7 +44,6 @@ public class ServidorHilo extends Thread {
             datoRecibido = in.readUTF();//espera a recibir mensaje del cliente
             System.out.println("Comando recibido:"+datoRecibido);
             
-            
             out.writeUTF(calcularDatoCalendario(datoRecibido));//manda mensaje al cliente
             //out.writeUTF(datoRecibido);//manda mensaje al cliente
             
@@ -89,6 +88,7 @@ public class ServidorHilo extends Thread {
                 break;
             case "END":
                 respuesta="conexiones cerradas";
+                System.out.println("Cerrando conexiones");
                 break;
             default:
                 respuesta="No se reconoce el comando solicitado";
