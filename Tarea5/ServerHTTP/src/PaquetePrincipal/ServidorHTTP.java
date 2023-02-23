@@ -32,7 +32,7 @@ class ServidorHTTP {
 
     //Asociamos al servidor el puerto 8066
     ServerSocket socServidor = new ServerSocket(8066);
-    imprimeDisponible();
+    imprimeDisponible();//salida por consola de mensaje bienvenida
     Socket socCliente;
 
     //ante una petición entrante, procesa la petición por el socket cliente
@@ -40,11 +40,14 @@ class ServidorHTTP {
     while (true) {
       //a la espera de peticiones
       socCliente = socServidor.accept();
+      ServidorHiloHTTP servidorHiloHTTP = new ServidorHiloHTTP(socCliente);
+      servidorHiloHTTP.start();
+      
       //atiendo un cliente
       System.out.println("Atendiendo al cliente ");
-      procesaPeticion(socCliente);
+      //procesaPeticion(socCliente);
       //cierra la conexión entrante
-      socCliente.close();
+     // socCliente.close();
       System.out.println("cliente atendido");
     }
   }
