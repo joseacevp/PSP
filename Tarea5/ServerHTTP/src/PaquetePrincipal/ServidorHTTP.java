@@ -17,6 +17,17 @@ import java.net.ServerSocket;
  * utilizando Windows)
  * 'netstat -na'
  * 'netstat -na | findstr 8066'
+ * En el ejemplo del apartado 5.1 en el que se basa la tarea, a la hora de probarlo no
+funciona en algunos navegadores más modernos por temas de seguridad.
+Para probarla podéis hacerlo desde la consola utilizando la utilidad curl que suele estar
+en todos los SSOO. En windows por ejemplo sería: curl localhost:8066 Y si queréis ver las
+cabeceras http 
+* curl -v localhost:8066
+Esta utilidad sirve para conectarse a servidores web y ver la respuesta en modo texto,
+tanto del html/js/css como de las cabeceras, es muy útil para programación web de apis,
+servicios rest, etc. Podéis probar por ejemplo curl -v google.es y ver la diferencia con
+respecto a curl -v www.google.es
+
  * @author IMCG
  */
 class ServidorHTTP {
@@ -52,73 +63,7 @@ class ServidorHTTP {
     }
   }
 
-  /**
-   *****************************************************************************
-   * procesa la petición recibida
-   *
-   * @throws IOException
-   */
-  private static void procesaPeticion(Socket socketCliente) throws IOException {
-    //variables locales
-    String peticion;
-    String html;
-
-    //Flujo de entrada
-    InputStreamReader inSR = new InputStreamReader(
-            socketCliente.getInputStream());
-    //espacio en memoria para la entrada de peticiones
-    BufferedReader bufLeer = new BufferedReader(inSR);
-
-    //objeto de java.io que entre otras características, permite escribir 
-    //'línea a línea' en un flujo de salida
-    PrintWriter printWriter = new PrintWriter(
-            socketCliente.getOutputStream(), true);
-
-    //mensaje petición cliente
-    peticion = bufLeer.readLine();
-
-    //para compactar la petición y facilitar así su análisis, suprimimos todos 
-    //los espacios en blanco que contenga
-    peticion = peticion.replaceAll(" ", "");
-
-    //si realmente se trata de una petición 'GET' (que es la única que vamos a
-    //implementar en nuestro Servidor)
-    if (peticion.startsWith("GET")) {
-      //extrae la subcadena entre 'GET' y 'HTTP/1.1'
-      peticion = peticion.substring(3, peticion.lastIndexOf("HTTP"));
-
-      //si corresponde a la página de inicio
-      if (peticion.length() == 0 || peticion.equals("/")) {
-        //sirve la página
-        html = Paginas.html_index;
-        printWriter.println(Mensajes.lineaInicial_OK);
-        printWriter.println(Paginas.primeraCabecera);
-        printWriter.println("Content-Length: " + html.length() + 1);
-        printWriter.println("\n");
-        printWriter.println(html);
-      } //si corresponde a la página del Quijote
-      else if (peticion.equals("/quijote")) {
-        //sirve la página
-        html = Paginas.html_quijote;
-        printWriter.println(Mensajes.lineaInicial_OK);
-        printWriter.println(Paginas.primeraCabecera);
-        printWriter.println("Content-Length: " + html.length() + 1);
-        printWriter.println("\n");
-        printWriter.println(html);
-      } //en cualquier otro caso
-      else {
-        //sirve la página
-        html = Paginas.html_noEncontrado;
-        printWriter.println(Mensajes.lineaInicial_NotFound);
-        printWriter.println(Paginas.primeraCabecera);
-        printWriter.println("Content-Length: " + html.length() + 1);
-        printWriter.println("\n");
-        printWriter.println(html);
-      }
-    
-    }
-  }
-
+ 
   /**
    * **************************************************************************
    * muestra un mensaje en la Salida que confirma el arranque, y da algunas
