@@ -116,6 +116,9 @@ public class ServidorHiloHTTP extends Thread {
         }
 
     }
+    
+    //metodo para obtener la hora y día actual con el formato adecuado para usar en 
+    //la cabecera de una paguina Web
 
     public static String getDateValue() {
         DateFormat df = new SimpleDateFormat(
