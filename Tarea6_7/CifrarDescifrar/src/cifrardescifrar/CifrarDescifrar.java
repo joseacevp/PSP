@@ -51,16 +51,18 @@ public class CifrarDescifrar {
             //1. Crear el iniciador de la clave
             System.out.println("1. -Genera clave DES");
             //crea un objeto para generar la clave usando algoritmo DES
-            KeyGenerator keyGen = KeyGenerator.getInstance("DES");
+            KeyGenerator keyGen = KeyGenerator.getInstance("DES");//se indica el algoritmo y proveedor///////////
             keyGen.init(56);//se indica el tamaño de  la clave
             SecretKey clave = keyGen.generateKey();//genera la clave privada
 
             System.out.println("Clave");
-//            mostrarBytes(clave.getEncoded());//muestra la clave
+            mostrarBytes(clave.getEncoded());//muestra la clave
             System.out.println();
-
+            
+            
+            
             //se Crea el objeto Cipher para cifrar, utilizando el algoritmo DES
-            Cipher cifrador = Cipher.getInstance("DES");
+            Cipher cifrador = Cipher.getInstance("DES");//se indica el algoritmo y proveedor///////////
             //se inicializa el cifrador en modo CIFRADO
             cifrador.init(Cipher.ENCRYPT_MODE, clave);
             System.out.println("2. - Cifrar con DES el fichero: " + file + ",y dejar resultado en " + file + ".cifrado");
@@ -106,9 +108,7 @@ public class CifrarDescifrar {
         return null;
     }
 
-//    private static void mostrarBytes(byte[] encoded) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
+
     private static void descifrarFichero(String file1, SecretKey key, String file2) {
         try {
             FileInputStream fe = null;//fichero de entrada
@@ -154,5 +154,9 @@ public class CifrarDescifrar {
             System.out.println("");
         }
     }
+//método que muestra bytes
 
+    public static void mostrarBytes(byte[] buffer) {
+        System.out.write(buffer, 0, buffer.length);
+    }
 }
