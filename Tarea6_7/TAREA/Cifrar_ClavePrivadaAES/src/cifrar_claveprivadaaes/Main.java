@@ -44,7 +44,7 @@ public class Main {
             descifrarFichero("fichero.cifrado", clave,
                     "fichero.descifrado");
         } catch (Exception e) {
-            e.printStackTrace();
+           System.out.println("fallo en entradas salidas de datos "+e);
         }
     }
 
@@ -98,7 +98,7 @@ public class Main {
             fs.close();
 
         } catch (Exception ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("fallo en entradas salidas de datos "+ex);
         }
         return passwordKey;
     }
@@ -153,7 +153,7 @@ public class Main {
                 try {
                     archivo.createNewFile();
                 } catch (IOException ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                   System.out.println("fallo en entradas salidas de datos "+ex);
                 }
             }
 
@@ -172,9 +172,9 @@ public class Main {
                 raf.writeChars(linea + "\n");//escribe en el fichero la linea
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("fallo al abrir fichero"+ex);
         } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("fallo en entradas salidas de datos "+ex);
         }
 
     }
@@ -186,7 +186,7 @@ public class Main {
 
     private static SecretKey generateKey(String password, String salt) throws Exception {
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 65536, 256);
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 65536, 128);
         return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
     }
 
