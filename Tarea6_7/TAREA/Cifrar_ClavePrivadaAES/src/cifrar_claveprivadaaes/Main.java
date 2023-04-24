@@ -54,7 +54,7 @@ public class Main {
 
 
     //Se Crea el objeto Cipher para cifrar, utilizando el algoritmo DES
-    Cipher cifrador = Cipher.getInstance("AES");
+    Cipher cifrador = Cipher.getInstance("AES/ECB/PKCS5Padding");
     //Se inicializa el cifrador en modo CIFRADO o ENCRIPTACIÓN
     cifrador.init(Cipher.ENCRYPT_MODE, clave);
     System.out.println("2.- Cifrar con AES el fichero: " + file
@@ -87,7 +87,7 @@ public class Main {
     FileInputStream fe = null; //fichero de entrada
     FileOutputStream fs = null; //fichero de salida
     int bytesLeidos;
-    Cipher cifrador = Cipher.getInstance("AES");
+    Cipher cifrador = Cipher.getInstance("AES/ECB/PKCS5Padding");
     //3.- Poner cifrador en modo DESCIFRADO o DESENCRIPTACIÓN
     cifrador.init(Cipher.DECRYPT_MODE, key);
     System.out.println("3.- Descifrar con AES el fichero: " + file1
