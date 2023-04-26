@@ -41,8 +41,9 @@ public class Main {
             //asi como los datos del usuario
             clave = cifrarFichero("fichero",usuario, password);
             //Llama la método que desencripta el fichero pasado como primer parámetro
+            //iniciar codigo para poder descrifrar
             descifrarFichero("fichero.cifrado", clave,
-                    "fichero.descifrado");
+                    "ficheroDescifrado.txt");
         } catch (Exception e) {
            System.out.println("fallo en entradas salidas de datos "+e);
         }
@@ -129,6 +130,7 @@ public class Main {
         }
         bufferClaro = cifrador.doFinal(); //Completa el descifrado
         fs.write(bufferClaro); //Graba el final del texto claro, si lo hay
+       
         //cierra archivos
         fe.close();
         fs.close();
