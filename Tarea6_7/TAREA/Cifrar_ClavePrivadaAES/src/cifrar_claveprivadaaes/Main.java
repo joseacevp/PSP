@@ -32,20 +32,20 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         System.out.println("Indicar nombre de Usuario:");
         String usuario = sc.nextLine();
-        
+
         System.out.println("Indicar Password: ");
         String password = sc.nextLine();
         //llama a los métodos que encripta/desencripta un fichero
         try {
             //Llama al método que encripta el fichero que se pasa como parámetro
             //asi como los datos del usuario
-            clave = cifrarFichero("fichero",usuario, password);
+            clave = cifrarFichero("fichero", usuario, password);
             //Llama la método que desencripta el fichero pasado como primer parámetro
             //iniciar codigo para poder descrifrar
             descifrarFichero("fichero.cifrado", clave,
                     "ficheroDescifrado.txt");
         } catch (Exception e) {
-           System.out.println("fallo en entradas salidas de datos "+e);
+            System.out.println("fallo en entradas salidas de datos " + e);
         }
     }
 
@@ -62,13 +62,17 @@ public class Main {
 
             //1. Crear e inicializar clave
             System.out.println("1.-Genera clave AES");
-
-            passwordKey = generateKey(password, usuario);
+            String semilla = usuario + password;
+//           passwordKey = generateKey(password, usuario);
 
 //            //crea un objeto para generar la clave usando algoritmo AES
-//            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-//            keyGen.init(128); //se indica el tamaño de la clave
+            KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+
+            SecureRandom aleatorio = new SecureRandom(semilla.getBytes());
+            keyGen.init(128, aleatorio); //se indica el tamaño de la clave
 //            SecretKey clave = keyGen.generateKey(); //genera la clave privada
+            passwordKey = keyGen.generateKey();
+
             System.out.println("Clave");
             mostrarBytes(passwordKey.getEncoded()); //muestra la clave
             System.out.println();
@@ -99,7 +103,7 @@ public class Main {
             fs.close();
 
         } catch (Exception ex) {
-            System.out.println("fallo en entradas salidas de datos "+ex);
+            System.out.println("fallo en entradas salidas de datos " + ex);
         }
         return passwordKey;
     }
@@ -130,7 +134,7 @@ public class Main {
         }
         bufferClaro = cifrador.doFinal(); //Completa el descifrado
         fs.write(bufferClaro); //Graba el final del texto claro, si lo hay
-       
+
         //cierra archivos
         fe.close();
         fs.close();
@@ -155,7 +159,7 @@ public class Main {
                 try {
                     archivo.createNewFile();
                 } catch (IOException ex) {
-                   System.out.println("fallo en entradas salidas de datos "+ex);
+                    System.out.println("fallo en entradas salidas de datos " + ex);
                 }
             }
 
@@ -174,9 +178,9 @@ public class Main {
                 raf.writeChars(linea + "\n");//escribe en el fichero la linea
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("fallo al abrir fichero"+ex);
+            System.out.println("fallo al abrir fichero" + ex);
         } catch (IOException ex) {
-            System.out.println("fallo en entradas salidas de datos "+ex);
+            System.out.println("fallo en entradas salidas de datos " + ex);
         }
 
     }
