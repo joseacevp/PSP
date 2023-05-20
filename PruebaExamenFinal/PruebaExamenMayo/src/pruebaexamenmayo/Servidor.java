@@ -25,8 +25,10 @@ public class Servidor {
     //devuelve el valor de la clave privada utilizada en encriptación
     //El fichero encriptado lo deja en el archivo de nombre fichero.cifrado
     //en el mismo directorio
+   
+    
 
-    private static SecretKey cifrarFichero(String file, String usuario, String password) {
+    public static SecretKey cifrarFichero(String file, String usuario, String password) {
         SecretKey passwordKey = null;
         try {
             FileInputStream fe = null; //fichero de entrada
@@ -79,6 +81,7 @@ public class Servidor {
         } catch (Exception ex) {
             System.out.println("fallo en entradas salidas de datos " + ex);
         }
+        
         return passwordKey;
     }
 
