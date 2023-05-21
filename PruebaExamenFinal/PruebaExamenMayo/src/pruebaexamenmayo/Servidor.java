@@ -11,10 +11,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Scanner;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import jdk.dynalink.linker.ConversionComparator;
 
 /**
  *
@@ -22,13 +24,13 @@ import javax.crypto.SecretKey;
  */
 public class Servidor {
     //método que encripta el fichero que se pasa como parámetro
-    //devuelve el valor de la clave privada utilizada en encriptación
+    //devuelve el valor de la clave privada en formato String utilizada en encriptación
     //El fichero encriptado lo deja en el archivo de nombre fichero.cifrado
     //en el mismo directorio
    
     
 
-    public static SecretKey cifrarFichero(String file, String usuario, String password) {
+    public static String cifrarFichero(String file, String usuario, String password) {
         SecretKey passwordKey = null;
         try {
             FileInputStream fe = null; //fichero de entrada
@@ -81,14 +83,16 @@ public class Servidor {
         } catch (Exception ex) {
             System.out.println("fallo en entradas salidas de datos " + ex);
         }
-        
-        return passwordKey;
+        //combierte el valor de la clave privada en String
+        String clave = Base64.getEncoder().encodeToString(passwordKey.getEncoded());
+        System.out.println(clave);
+        return clave;
     }
 
     public static void main(String[] args) {
         //declara e incializa objeto tipo clave secreta que recibe el valor de 
         // la función cifrarFichero
-        SecretKey clave = null;
+        String clave = null;
 
         //escrive en el fichero una cadena de texto aleatoria.
         escribirEnFichero("fichero.txt");
@@ -159,4 +163,5 @@ public class Servidor {
     public static void mostrarBytes(byte[] buffer) {
         System.out.write(buffer, 0, buffer.length);
     }
+    
 }

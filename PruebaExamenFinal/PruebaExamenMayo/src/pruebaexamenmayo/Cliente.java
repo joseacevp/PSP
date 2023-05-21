@@ -1,13 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pruebaexamenmayo;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.Base64;
+import java.util.Scanner;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  *
@@ -17,8 +16,12 @@ public class Cliente {
     //método que desencripta el fichero pasado como primer parámetro file1
 //pasándole también la clave privada que necesita para desencriptar, key
 //y deja el fichero desencriptado en el tercer parámetro file2
-    private  void descifrarFichero(String file1, SecretKey key, String file2) {
+    private  void descifrarFichero(String file1, String clave, String file2) {
         try {
+            //combierte un string en una clave privada
+            byte[] decoKey= Base64.getDecoder().decode(clave);
+            SecretKey key = new SecretKeySpec (decoKey,0,decoKey.length,"AES");
+            ////////////////////////////////////////////////
             FileInputStream fe = null; //fichero de entrada
             FileOutputStream fs = null; //fichero de salida
             int bytesLeidos;
@@ -59,9 +62,12 @@ public class Cliente {
     
     
     public static void main(String[] args) {
-        Servidor servidor = new Servidor();
-        servidor.
+       //pide los datos de la clave para descifrar el fichero
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Indicar clave:");
+        String clave = sc.nextLine();
+        //llama a la funcion para descifrar el fichero
         Cliente cliente = new Cliente();
-        cliente.descifrarFichero("fichero.cifrado", key, "ficheroDescifrado.txt");
+        cliente.descifrarFichero("fichero.cifrado", clave, "ficheroDescifrado.txt");
     }
 }
